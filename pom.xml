@@ -35,6 +35,7 @@
 
     <properties>
         <version.springboot>3.0.6</version.springboot>
+        <version.keycloak>${project.version}</version.keycloak>
     </properties>
 
     <dependencyManagement>
@@ -65,16 +66,19 @@
         <dependency>
             <groupId>org.keycloak</groupId>
             <artifactId>keycloak-policy-enforcer</artifactId>
+            <version>${version.keycloak}</version>
         </dependency>
         <dependency>
             <groupId>org.keycloak</groupId>
             <artifactId>keycloak-core</artifactId>
+            <version>${version.keycloak}</version>
         </dependency>
 
         <!-- Test Dependencies -->
         <dependency>
             <groupId>org.keycloak</groupId>
             <artifactId>keycloak-admin-client</artifactId>
+            <version>${version.keycloak}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -90,6 +94,7 @@
         <dependency>
             <groupId>org.keycloak</groupId>
             <artifactId>keycloak-test-helper</artifactId>
+            <version>${version.keycloak}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
