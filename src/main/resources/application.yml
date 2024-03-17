@@ -3,4 +3,17 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          jwk-set-uri: http://localhost:8180/realms/quickstart/protocol/openid-connect/certs
+          jwk-set-uri: https://keycloak-demo1-prod.skyscaledev.com/realms/quickstartapi/protocol/openid-connect/certs
+
+server:
+  port : 8082
+
+
+springdoc:
+  api-docs:
+    path: /api-docs # Specify the path of the OpenAPI documentation
+  swagger-ui:
+    path: /swagger-ui.html # Specify the path of the Swagger UI
+    enabled: true # Enable or disable Swagger UI
+  show-actuator: true # Include spring-boot-actuator endpoints to swagger-ui
+  swagger-ui.use-root-path: false

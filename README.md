@@ -43,7 +43,7 @@ docker run --name keycloak \
 
 where `KC_VERSION` should be set to 21.0.0 or higher.
 
-You should be able to access your Keycloak Server at http://localhost:8180.
+You should be able to access your Keycloak Server at https://keycloak-demo1-prod.skyscaledev.com.
 
 Log in as the admin user to access the Keycloak Administration Console. Username should be `admin` and password `admin`.
 
@@ -87,7 +87,7 @@ To obtain the bearer token, run for instance the following command when on Linux
 
 ```shell
 export access_token=$(\
-curl -X POST http://localhost:8180/realms/quickstart/protocol/openid-connect/token \
+curl -X POST https://keycloak-demo1-prod.skyscaledev.com/realms/quickstart/protocol/openid-connect/token \
 -H 'content-type: application/x-www-form-urlencoded' \
 -d 'client_id=authz-servlet&client_secret=secret' \
 -d 'username=jdoe&password=jdoe&grant_type=password' | jq --raw-output '.access_token' \
@@ -120,7 +120,7 @@ To obtain an RPT, you must first exchange an OAuth2 Access Token for a RPT by in
 
 ```bash
 export rpt=$(curl -X POST \
- http://localhost:8180/realms/quickstart/protocol/openid-connect/token \
+ https://keycloak-demo1-prod.skyscaledev.com/realms/quickstart/protocol/openid-connect/token \
  -H "Authorization: Bearer "$access_token \
  --data "grant_type=urn:ietf:params:oauth:grant-type:uma-ticket" \
  --data "audience=authz-servlet" \
@@ -135,7 +135,7 @@ As an alternative, you can also obtain permissions for any resource protected by
 
 ```bash
 export rpt=$(curl -X POST \
- http://localhost:8180/realms/quickstart/protocol/openid-connect/token \
+ https://keycloak-demo1-prod.skyscaledev.com/realms/quickstart/protocol/openid-connect/token \
  -H "Authorization: Bearer "$access_token \
  --data "grant_type=urn:ietf:params:oauth:grant-type:uma-ticket" \
  --data "audience=authz-servlet" | jq --raw-output '.access_token' \
