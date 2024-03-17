@@ -63,11 +63,11 @@
     {
       "clientId": "authz-servlet",
       "enabled": true,
-      "baseUrl": "http://localhost:8080/authz-servlet",
-      "adminUrl": "http://localhost:8080/authz-servlet",
+      "baseUrl": "https://keycloak-api-prod.skyscaledev.com/authz-servlet",
+      "adminUrl": "https://keycloak-api-prod.skyscaledev.com/authz-servlet",
       "bearerOnly": false,
       "redirectUris": [
-        "http://localhost:8080/authz-servlet/*",
+        "https://keycloak-api-prod.skyscaledev.com/authz-servlet/*",
         "http://127.0.0.1:8080/authz-servlet/*"
       ],
       "secret": "secret",

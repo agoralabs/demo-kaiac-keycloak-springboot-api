@@ -69,8 +69,8 @@ Access the Quickstart
 
 There are 2 endpoints exposed by the service:
 
-* http://localhost:8080/ - can be invoked by any authenticated user
-* http://localhost:8080/protected/premium - can be invoked by users with the `user_premium` role
+* https://keycloak-api-prod.skyscaledev.com/ - can be invoked by any authenticated user
+* https://keycloak-api-prod.skyscaledev.com/protected/premium - can be invoked by users with the `user_premium` role
 
 To invoke the protected endpoints using a bearer token, your client needs to obtain an OAuth2 access token from a Keycloak server.
 In this example, we are going to obtain tokens using the resource owner password grant type so that the client can act on behalf of any user available from
@@ -96,11 +96,11 @@ curl -X POST https://keycloak-demo1-prod.skyscaledev.com/realms/quickstart/proto
 
 You can use the same command to obtain tokens on behalf of user `alice`, just make sure to change both `username` and `password` request parameters.
 
-After running the command above, you can now access the `http://localhost:8080/protected/premium` endpoint
+After running the command above, you can now access the `https://keycloak-api-prod.skyscaledev.com/protected/premium` endpoint
 because the user `jdoe` has the `user_premium` role.
 
 ```shell
-curl http://localhost:8080/protected/premium \
+curl https://keycloak-api-prod.skyscaledev.com/protected/premium \
   -H "Authorization: Bearer "$access_token
 ```
 
@@ -153,7 +153,7 @@ After executing any of the commands above, you should get a response similar to 
 To finally invoke the resource protected by the application, replace the ``${rpt}`` variable below with the value of the ``access_token`` claim from the response above and execute the following command:
 
 ```bash
-curl http://localhost:8080/protected/premium \
+curl https://keycloak-api-prod.skyscaledev.com/protected/premium \
     -H "Authorization: Bearer ${rpt}"
 ```
 
