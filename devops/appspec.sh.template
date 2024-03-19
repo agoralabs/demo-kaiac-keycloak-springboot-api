@@ -6,6 +6,8 @@ GL_DOCKER_REPOSITORY="$TF_VAR_ENV_APP_GL_DOCKER_REPOSITORY"
 WORKING_DIR=$TF_VAR_ENV_APP_BE_LOCAL_SOURCE_FOLDER
 cd $WORKING_DIR
 
+mkdir -p $WORKING_DIR/tmp
+
 #Se connecter au repo ECR
 echo "Login into ecr..."
 aws ecr get-login-password --region $GL_AWS_REGION_ECR | docker login --username AWS --password-stdin $GL_DOCKER_REPOSITORY

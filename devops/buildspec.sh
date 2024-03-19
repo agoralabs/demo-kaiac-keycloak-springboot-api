@@ -8,7 +8,7 @@ appenvsubstr(){
     p_destination=$2
     envsubst '$TF_VAR_ENV_APP_GL_NAME' < $p_template \
     | envsubst '$TF_VAR_ENV_APP_GL_STAGE' \
-    | envsubst '$TF_VAR_ENV_APP_BE_NAMESPACE' \
+    | envsubst '$TF_VAR_ENV_APP_GL_NAMESPACE' \
     | envsubst '$TF_VAR_ENV_APP_BE_LOCAL_SOURCE_FOLDER' \
     | envsubst '$TF_VAR_ENV_APP_BE_LOCAL_PORT' \
     | envsubst '$TF_VAR_ENV_APP_BE_URL' \
@@ -33,7 +33,7 @@ chmod +x ./mvnw
 ECR_REGION=$TF_VAR_ENV_APP_GL_AWS_REGION_ECR
 ECR_REGISTRY=$TF_VAR_ENV_APP_GL_DOCKER_REPOSITORY
 ECR_REPO=$TF_VAR_ENV_APP_GL_NAME
-ECR_TAG=${TF_VAR_ENV_APP_BE_NAMESPACE}_${TF_VAR_ENV_APP_GL_NAME}
+ECR_TAG=${TF_VAR_ENV_APP_GL_NAMESPACE}_${TF_VAR_ENV_APP_GL_NAME}
 
 
 echo "Login into ecr..."
