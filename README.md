@@ -87,7 +87,7 @@ To obtain the bearer token, run for instance the following command when on Linux
 
 ```shell
 export access_token=$(\
-curl -X POST https://keycloak-demo1-prod.skyscaledev.com/realms/quickstartapi/protocol/openid-connect/token \
+curl -X POST https://keycloak-demo1-prod.skyscaledev.com/realms/rcognito/protocol/openid-connect/token \
 -H 'content-type: application/x-www-form-urlencoded' \
 -d 'client_id=authz-servlet&client_secret=secret' \
 -d 'username=jdoe&password=jdoe&grant_type=password' | jq --raw-output '.access_token' \
@@ -120,7 +120,7 @@ To obtain an RPT, you must first exchange an OAuth2 Access Token for a RPT by in
 
 ```bash
 export rpt=$(curl -X POST \
- https://keycloak-demo1-prod.skyscaledev.com/realms/quickstartapi/protocol/openid-connect/token \
+ https://keycloak-demo1-prod.skyscaledev.com/realms/rcognito/protocol/openid-connect/token \
  -H "Authorization: Bearer "$access_token \
  --data "grant_type=urn:ietf:params:oauth:grant-type:uma-ticket" \
  --data "audience=authz-servlet" \
