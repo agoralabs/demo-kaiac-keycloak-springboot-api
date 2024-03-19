@@ -1,5 +1,5 @@
 services:
-  backend:
+  api:
     image: ${TF_VAR_ENV_APP_GL_NAME}:${TF_VAR_ENV_APP_GL_NAMESPACE}_${TF_VAR_ENV_APP_GL_STAGE}
     container_name:  ${TF_VAR_ENV_APP_GL_NAME}_${TF_VAR_ENV_APP_GL_NAMESPACE}_${TF_VAR_ENV_APP_GL_STAGE}
     build:

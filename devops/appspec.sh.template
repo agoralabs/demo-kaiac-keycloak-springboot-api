@@ -1,13 +1,20 @@
 #!/bin/bash
 
-SCRIPT_MODE="$TF_VAR_ENV_APP_GL_SCRIPT_MODE"
+GL_AWS_REGION_ECR="$TF_VAR_ENV_APP_GL_AWS_REGION_ECR"
+GL_DOCKER_REPOSITORY="$TF_VAR_ENV_APP_GL_DOCKER_REPOSITORY"
 
-source_folder=$TF_VAR_ENV_APP_BE_LOCAL_SOURCE_FOLDER
+WORKING_DIR=$TF_VAR_ENV_APP_BE_LOCAL_SOURCE_FOLDER
+cd $WORKING_DIR
 
-mkdir -p $TF_VAR_ENV_APP_BE_LOCAL_SOURCE_FOLDER/tmp
+#Se connecter au repo ECR
+echo "Login into ecr..."
+aws ecr get-login-password --region $GL_AWS_REGION_ECR | docker login --username AWS --password-stdin $GL_DOCKER_REPOSITORY
 
-aws ecr get-login-password --region $TF_VAR_ENV_APP_GL_AWS_REGION_ECR | docker login --username AWS --password-stdin $TF_VAR_ENV_APP_GL_AWS_ACCOUNT_ID.dkr.ecr.$TF_VAR_ENV_APP_GL_AWS_REGION_ECR.amazonaws.com
+#Stopper le container avant de supprimer les images
+docker compose -f $WORKING_DIR/docker-compose.yml down
 
-docker build -t $TF_VAR_ENV_APP_GL_NAME:${TF_VAR_ENV_APP_BE_NAMESPACE}_${TF_VAR_ENV_APP_GL_NAME} $source_folder
+#Supprimer les anciennes images en local
+docker images -a | grep "$GL_DOCKER_REPOSITORY" | awk '{ print $3 }' | xargs docker rmi -f
 
-docker compose -f $source_folder/docker-compose.yml up -d
+#Lancer le container
+docker compose -f $WORKING_DIR/docker-compose.yml up -d
