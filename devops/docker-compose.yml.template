@@ -1,0 +1,12 @@
+services:
+  backend:
+    image: ${TF_VAR_ENV_APP_GL_NAME}:${TF_VAR_ENV_APP_GL_NAMESPACE}_${TF_VAR_ENV_APP_GL_STAGE}
+    container_name:  ${TF_VAR_ENV_APP_GL_NAME}_${TF_VAR_ENV_APP_GL_NAMESPACE}_${TF_VAR_ENV_APP_GL_STAGE}
+    build:
+      context: ./
+    volumes:
+      - type: bind
+        source: ${TF_VAR_ENV_APP_BE_LOCAL_SOURCE_FOLDER}/tmp
+        target: /tmp
+    ports:
+        - '${TF_VAR_ENV_APP_BE_LOCAL_PORT}:${TF_VAR_ENV_APP_BE_LOCAL_PORT}'

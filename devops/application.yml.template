@@ -1,0 +1,19 @@
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: ${TF_VAR_ENV_APP_KC_REALM_CERTS_URL}
+
+server:
+  port : ${TF_VAR_ENV_APP_BE_LOCAL_PORT}
+
+
+springdoc:
+  api-docs:
+    path: /api-docs # Specify the path of the OpenAPI documentation
+  swagger-ui:
+    path: /swagger-ui.html # Specify the path of the Swagger UI
+    enabled: true # Enable or disable Swagger UI
+  show-actuator: true # Include spring-boot-actuator endpoints to swagger-ui
+  swagger-ui.use-root-path: false

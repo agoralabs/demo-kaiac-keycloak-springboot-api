@@ -1,0 +1,13 @@
+#!/bin/bash
+
+SCRIPT_MODE="$TF_VAR_ENV_APP_GL_SCRIPT_MODE"
+
+source_folder=$TF_VAR_ENV_APP_BE_LOCAL_SOURCE_FOLDER
+
+mkdir -p $TF_VAR_ENV_APP_BE_LOCAL_SOURCE_FOLDER/tmp
+
+aws ecr get-login-password --region $TF_VAR_ENV_APP_GL_AWS_REGION_ECR | docker login --username AWS --password-stdin $TF_VAR_ENV_APP_GL_AWS_ACCOUNT_ID.dkr.ecr.$TF_VAR_ENV_APP_GL_AWS_REGION_ECR.amazonaws.com
+
+docker build -t $TF_VAR_ENV_APP_GL_NAME:${TF_VAR_ENV_APP_BE_NAMESPACE}_${TF_VAR_ENV_APP_GL_NAME} $source_folder
+
+docker compose -f $source_folder/docker-compose.yml up -d
