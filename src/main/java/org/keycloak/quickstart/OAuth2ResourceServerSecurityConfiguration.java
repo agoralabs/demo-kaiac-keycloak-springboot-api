@@ -57,7 +57,7 @@ public class OAuth2ResourceServerSecurityConfiguration {
                         .requestMatchers("/swagger-ui/**").permitAll()
                         .requestMatchers("/swagger-resources/**").permitAll()
                         .requestMatchers("/v2/api-docs").permitAll()
-						.anyRequest().authenticated())
+						.anyRequest().authenticated());
 		
 		//http.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)		
 		//http.addFilterAfter(createPolicyEnforcerFilter(), BearerTokenAuthenticationFilter.class);
