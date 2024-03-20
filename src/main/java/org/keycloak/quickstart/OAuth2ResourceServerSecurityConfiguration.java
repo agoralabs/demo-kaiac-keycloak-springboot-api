@@ -33,9 +33,6 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.server.resource.web.authentication.BearerTokenAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
 
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.config.CookieSpecs;
 
 /**
  * OAuth resource configuration.
@@ -52,11 +49,12 @@ public class OAuth2ResourceServerSecurityConfiguration {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-		http.authorizeHttpRequests((authorize) -> authorize
-						.anyRequest().permitAll());
-		
-		//http.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)		
-		//http.addFilterAfter(createPolicyEnforcerFilter(), BearerTokenAuthenticationFilter.class);
+		http
+				.authorizeHttpRequests((authorize) -> authorize
+						.anyRequest().authenticated()
+				)
+				.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
+				.addFilterAfter(createPolicyEnforcerFilter(), BearerTokenAuthenticationFilter.class);
 		return http.build();
 	}
 
