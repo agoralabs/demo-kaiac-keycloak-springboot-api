@@ -53,11 +53,7 @@ public class OAuth2ResourceServerSecurityConfiguration {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
 		http.authorizeHttpRequests((authorize) -> authorize
-						.requestMatchers("/actuator/**").permitAll()
-                        .requestMatchers("/swagger-ui/**").permitAll()
-                        .requestMatchers("/swagger-resources/**").permitAll()
-                        .requestMatchers("/v2/api-docs").permitAll()
-						.anyRequest().authenticated());
+						.anyRequest().permitAll());
 		
 		//http.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)		
 		//http.addFilterAfter(createPolicyEnforcerFilter(), BearerTokenAuthenticationFilter.class);
