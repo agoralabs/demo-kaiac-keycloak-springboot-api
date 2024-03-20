@@ -92,6 +92,8 @@ curl -X POST https://keycloak-demo1-prod.skyscaledev.com/realms/rcognito/protoco
 -d 'client_id=authz-servlet&client_secret=secret' \
 -d 'username=jdoe&password=jdoe&grant_type=password' | jq --raw-output '.access_token' \
 )
+
+echo access_token=$access_token
 ```
 
 You can use the same command to obtain tokens on behalf of user `alice`, just make sure to change both `username` and `password` request parameters.
@@ -126,6 +128,8 @@ export rpt=$(curl -X POST \
  --data "audience=authz-servlet" \
   --data "permission=Premium Resource" | jq --raw-output '.access_token' \
  )
+
+ echo rpt=$rpt
 ```
 
 The command above is trying to obtain permissions from the server in the format of a RPT. Note that the request is specifying the resource we want
@@ -140,6 +144,8 @@ export rpt=$(curl -X POST \
  --data "grant_type=urn:ietf:params:oauth:grant-type:uma-ticket" \
  --data "audience=authz-servlet" | jq --raw-output '.access_token' \
  )
+ 
+ echo rpt=$rpt
 ```
 
 After executing any of the commands above, you should get a response similar to the following:
