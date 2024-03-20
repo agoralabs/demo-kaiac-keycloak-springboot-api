@@ -36,6 +36,7 @@
     <properties>
         <version.springboot>3.0.6</version.springboot>
         <version.keycloak>${project.version}</version.keycloak>
+        <version.httpcomponents>4.5.14</version.httpcomponents>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -99,6 +100,16 @@
             <artifactId>keycloak-test-helper</artifactId>
             <version>${version.keycloak}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>${version.httpcomponents}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpcore</artifactId>
+            <version>${version.httpcomponents}</version>
         </dependency>
     </dependencies>
 
