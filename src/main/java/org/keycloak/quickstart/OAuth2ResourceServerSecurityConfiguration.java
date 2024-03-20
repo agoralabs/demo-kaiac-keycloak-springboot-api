@@ -56,10 +56,9 @@ public class OAuth2ResourceServerSecurityConfiguration {
             .setCookieSpec(CookieSpecs.STANDARD).build())
     .build();
 
-		http.authorizeRequests().antMatchers("/actuator/*").permitAll();
-
 		http
 				.authorizeHttpRequests((authorize) -> authorize
+						.requestMatchers("/actuator/**", "/actuator").permitAll()
 						.anyRequest().authenticated()
 				)
 				.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
