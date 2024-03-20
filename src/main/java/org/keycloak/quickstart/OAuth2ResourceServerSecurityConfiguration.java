@@ -51,18 +51,16 @@ public class OAuth2ResourceServerSecurityConfiguration {
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		HttpClients.custom()
-    .setDefaultRequestConfig(RequestConfig.custom()
-            .setCookieSpec(CookieSpecs.STANDARD).build())
-    .build();
 
-		http
-				.authorizeHttpRequests((authorize) -> authorize
-						.requestMatchers("/actuator/**", "/actuator").permitAll()
-						.anyRequest().authenticated()
-				)
-				.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
-				.addFilterAfter(createPolicyEnforcerFilter(), BearerTokenAuthenticationFilter.class);
+		http.authorizeHttpRequests((authorize) -> authorize
+						.requestMatchers("/actuator/**").permitAll()
+                        .requestMatchers("/swagger-ui/**").permitAll()
+                        .requestMatchers("/swagger-resources/**").permitAll()
+                        .requestMatchers("/v2/api-docs").permitAll()
+						.anyRequest().authenticated())
+		
+		//http.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)		
+		//http.addFilterAfter(createPolicyEnforcerFilter(), BearerTokenAuthenticationFilter.class);
 		return http.build();
 	}
 
