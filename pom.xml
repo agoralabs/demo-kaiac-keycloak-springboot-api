@@ -36,7 +36,8 @@
     <properties>
         <version.springboot>3.0.6</version.springboot>
         <version.keycloak>${project.version}</version.keycloak>
-        <version.httpcomponents>4.5.14</version.httpcomponents>
+        <version.httpcomponents.httpclient>4.5.14</version.httpcomponents.httpclient>
+        <version.httpcomponents.httpcore>4.4.16</version.httpcomponents.httpcore>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -104,12 +105,12 @@
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
-            <version>${version.httpcomponents}</version>
+            <version>${version.httpcomponents.httpclient}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpcore</artifactId>
-            <version>${version.httpcomponents}</version>
+            <version>${version.httpcomponents.httpcore}</version>
         </dependency>
     </dependencies>
 
