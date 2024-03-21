@@ -49,9 +49,9 @@ public class OAuth2ResourceServerSecurityConfiguration {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
+				//.csrf().disable() // Désactiver CSRF
 
 		http
-				.csrf().disable() // Désactiver CSRF
 				.authorizeHttpRequests((authorize) -> authorize
 						.anyRequest().authenticated()
 				)
