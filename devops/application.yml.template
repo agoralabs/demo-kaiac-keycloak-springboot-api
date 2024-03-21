@@ -17,3 +17,11 @@ springdoc:
     enabled: true # Enable or disable Swagger UI
   show-actuator: true # Include spring-boot-actuator endpoints to swagger-ui
   swagger-ui.use-root-path: false
+
+logging:
+  level:
+    root: DEBUG
+
+web:
+  cors:
+    allowed-origins: "*"

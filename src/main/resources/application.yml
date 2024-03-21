@@ -21,3 +21,7 @@ springdoc:
 logging:
   level:
     root: DEBUG
+
+web:
+  cors:
+    allowed-origins: "*"
