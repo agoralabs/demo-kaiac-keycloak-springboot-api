@@ -30,26 +30,53 @@ appenvsubstr devops/docker-compose.yml.template docker-compose.yml
 chmod +x ./mvnw
 ./mvnw clean install -DskipTests
 
-ECR_REGION=$TF_VAR_ENV_APP_GL_AWS_REGION_ECR
-ECR_REGISTRY=$TF_VAR_ENV_APP_GL_DOCKER_REPOSITORY
-ECR_REPO=$TF_VAR_ENV_APP_GL_NAME
-ECR_TAG=${TF_VAR_ENV_APP_GL_NAMESPACE}_${TF_VAR_ENV_APP_GL_NAME}
+DOCKER_REGISTRY="$TF_VAR_ENV_APP_GL_DOCKER_REPOSITORY"
+ECR_REGION="$TF_VAR_ENV_APP_GL_AWS_REGION_ECR"
+ECR_REPOSITORY="${TF_VAR_ENV_APP_GL_NAMESPACE}"
+ECR_TAG="${TF_VAR_ENV_APP_GL_NAME}_${TF_VAR_ENV_APP_GL_STAGE}"
 
 
+#Se connecter au repo ECR
 echo "Login into ecr..."
-aws ecr get-login-password --region $ECR_REGION | docker login --username AWS --password-stdin $ECR_REGISTRY
+aws ecr get-login-password --region $ECR_REGION | docker login --username AWS --password-stdin $DOCKER_REGISTRY
 
+#Builder l'image
 echo "Building the Docker image..."
-docker build -t $ECR_REPO:$ECR_TAG .
+docker build -t $ECR_REPOSITORY:$ECR_TAG .
 
-echo "Create $ECR_REPO repository..."
-aws ecr describe-repositories --repository-names $ECR_REPO --region $ECR_REGION || aws ecr create-repository --repository-name $ECR_REPO --region $ECR_REGION
-aws ecr delete-repository --repository-name $ECR_REPO --force
-aws ecr create-repository --repository-name $ECR_REPO --region $ECR_REGION
+#Créer un repo
+echo "Create $ECR_REPOSITORY repository..."
+aws ecr describe-repositories --repository-names "$ECR_REPOSITORY" --region "$ECR_REGION" || aws ecr create-repository --repository-name $ECR_REPOSITORY --region $ECR_REGION
 
-echo "Tag your image with the Amazon ECR registry..."
-docker tag $ECR_REPO:$ECR_TAG $ECR_REGISTRY/$ECR_REPO:$ECR_TAG
+aws ecr batch-delete-image --repository-name "$ECR_REPOSITORY" --image-ids imageTag="$ECR_TAG"
 
-echo "Push the image to ecr..."
-docker push $ECR_REGISTRY/$ECR_REPO:$ECR_TAG
+# Vérifie le code de sortie de la commande précédente
+if [ $? -eq 0 ]; then
+    echo "L'image $1 a été supprimée avec succès."
 
+    #Tagguer l'image
+    echo "Tag your image with the Amazon ECR registry..."
+    docker tag $ECR_REPOSITORY:$ECR_TAG $DOCKER_REGISTRY/$ECR_REPOSITORY:$ECR_TAG
+
+    #Push dans ECR
+    echo "Push the image to ecr..."
+    docker push $DOCKER_REGISTRY/$ECR_REPOSITORY:$ECR_TAG
+
+else
+    echo "Une erreur s'est produite lors de la suppression de l'image $1."
+fi
+
+# Récupère les identifiants des images non tagguées
+untagged_image_ids=$(aws ecr describe-images --repository-name "$ECR_REPOSITORY" --filter tagStatus=UNTAGGED --query 'imageDetails[*].imageDigest' --output json)
+
+# Supprime les images non tagguées du référentiel
+if [ -n "$untagged_image_ids" ]; then
+    aws ecr batch-delete-image --repository-name "$ECR_REPOSITORY" --image-ids "$untagged_image_ids" >/dev/null 2>&1
+    if [ $? -eq 0 ]; then
+        echo "Les images non tagguées du référentiel $ECR_REPOSITORY ont été supprimées avec succès."
+    else
+        echo "Une erreur s'est produite lors de la suppression des images non tagguées du référentiel $ECR_REPOSITORY."
+    fi
+else
+    echo "Aucune image non tagguée à supprimer dans le référentiel $ECR_REPOSITORY."
+fi
